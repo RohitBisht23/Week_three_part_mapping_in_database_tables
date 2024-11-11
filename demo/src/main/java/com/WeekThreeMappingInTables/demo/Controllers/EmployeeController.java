@@ -2,10 +2,7 @@ package com.WeekThreeMappingInTables.demo.Controllers;
 
 import com.WeekThreeMappingInTables.demo.entities.EmployeeEntity;
 import com.WeekThreeMappingInTables.demo.services.EmployeeServices;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping(path="employee")
@@ -18,11 +15,13 @@ public class EmployeeController {
         this.employeeServices = employeeServices;
     }
 
+    @GetMapping
     public EmployeeEntity getEmployeeById(@RequestParam Long id) {
         return employeeServices.getEmployeeByID(id);
     }
 
-    public EmployeeEntity createNewEmployee(@RequestBody EmployeeEntity employeeEntity) {
+    @PostMapping
+    public EmployeeEntity getCreateNewEmployee(@RequestBody EmployeeEntity employeeEntity) {
         return employeeServices.getCreateNewEmployee(employeeEntity);
     }
 }

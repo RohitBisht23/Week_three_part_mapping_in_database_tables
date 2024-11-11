@@ -42,8 +42,10 @@
 		<dependency>
 			<groupId>org.projectlombok</groupId>
 			<artifactId>lombok</artifactId>
-			<optional>true</optional>
+			<version>1.18.24</version> <!-- Use the latest version available -->
+			<scope>provided</scope>
 		</dependency>
+
 
 		<dependency>
 			<groupId>com.mysql</groupId>

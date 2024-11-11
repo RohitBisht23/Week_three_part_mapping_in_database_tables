@@ -14,7 +14,7 @@ public class DepartmentController {
         this.departmentServices = departmentServices;
     }
 
-    @GetMapping(path="/{departmentId}")
+    @GetMapping
     public DepartmentEntity getDepartmentById(@RequestParam Long id) {
         return departmentServices.getDepartmentById(id);
     }
@@ -22,5 +22,16 @@ public class DepartmentController {
     @PostMapping
     public  DepartmentEntity createNewDepartment(@RequestBody DepartmentEntity departmentEntity) {
         return departmentServices.createNewDepartment(departmentEntity);
+    }
+
+
+    @PutMapping(path="/{departmentId}/manager/{employeeId}")
+    public DepartmentEntity assignManagerToDepartment(@PathVariable Long departmentId, @PathVariable Long employeeId) {
+        return departmentServices.assignManagerToDepartment(departmentId, employeeId);
+    }
+
+    @GetMapping(path="/assignDepartmentOfManager/{employeeId}")
+    public DepartmentEntity getAssignDepartmentOfManager(@PathVariable Long employeeId) {
+        return departmentServices.getAssignDepartmentOfManager(employeeId);
     }
 }
