@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.engine.internal.Cascade;
 
+import java.util.List;
 import java.util.Objects;
 import java.util.Set;
 
@@ -33,8 +34,9 @@ public class EmployeeEntity {
     @JsonIgnore
     private DepartmentEntity workerDepartment;
 
-//    @ManyToMany(cascade = CascadeType.ALL)
-//    private List<ProjectEntity> projects;
+    @ManyToMany(mappedBy = "project_memebers")
+    @JsonIgnore
+    private List<ProjectEntity> employee_projects;
 
 
     @ManyToMany

@@ -15,6 +15,12 @@ public class ProjectEntity {
 
     private String title;
 
-//    @ManyToMany
-//    private List<EmployeeEntity> members;
+
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(
+            name = "Assigned_employee_in_projects",
+            joinColumns = @JoinColumn(name = "employee_projects_id"),
+            inverseJoinColumns = @JoinColumn(name = "members_of_Projects_id")
+    )
+    private List<EmployeeEntity> project_memebers;
 }
