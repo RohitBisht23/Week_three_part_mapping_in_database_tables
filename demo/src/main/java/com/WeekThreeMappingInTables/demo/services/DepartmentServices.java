@@ -7,7 +7,6 @@ import com.WeekThreeMappingInTables.demo.repositories.EmployeeRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
-
 @Service
 public class DepartmentServices {
     private final DepartmentRepository departmentRepository;
@@ -49,12 +48,41 @@ public class DepartmentServices {
 //        ).orElse(null);
 
         //Second way
-        //return departmentRepository.findByManager(employeeEntity.get());
+//       return departmentRepository.findByManager(employeeEntity.get());
 
         /*Above are making two api call to database and to optimize it creating the
         employee entity by own using builder pattern ot lombork
          */
-        EmployeeEntity employeeEntity = EmployeeEntity.builder().id(employeeId).build();
+        EmployeeEntity employeeEntity = EmployeeEntity.builder().id(employeeId).build(); // Fixed 'Id' to 'id'
         return departmentRepository.findByManager(employeeEntity);
+    }
+
+    public DepartmentEntity assignWorkerToDepartment(Long departmentId, Long employeeId) {
+        Optional<EmployeeEntity> employeeEntity = employeeRepository.findById(employeeId);
+        Optional<DepartmentEntity> departmentEntity = departmentRepository.findById(departmentId);
+
+        return departmentEntity.flatMap(department ->
+                employeeEntity.map(employee -> {
+                    employee.setWorkerDepartment(department);
+                    employeeRepository.save(employee);
+
+                    department.getWorkers().add(employee);
+                    return department;
+                })).orElse(null);
+
+    }
+
+    public DepartmentEntity assignFreelancerToDepartment(Long departmentId, Long freelancerId) {
+        Optional<DepartmentEntity> departmentEntity = departmentRepository.findById(departmentId);
+        Optional<EmployeeEntity> employeeEntity = employeeRepository.findById(freelancerId);
+
+        return departmentEntity.flatMap(department ->
+                        employeeEntity.map(freelancer -> {
+                            freelancer.getFreelanceDepartment().add(department);
+                            employeeRepository.save(freelancer);
+                            department.getFreelancers().add(freelancer);
+                            return department;
+                        })
+                ).orElse(null);
     }
 }
